@@ -349,5 +349,10 @@ S32 main(S32 arg_count, char **args_list)
   }
 
   // -
+  // NOTE(David): Not strictly necessary but for demo purposes.
+  // OS will free all memory anyway on exit.
+  arena_free(&arena);
+
+  // -
   return result;
 }

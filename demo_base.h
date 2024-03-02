@@ -53,7 +53,7 @@ struct Arena {
 
 function void arena_init(Arena *arena);
 function void *arena_allocate(Arena *arena, U64 size);
-function void arena_clear(Arena *arena);
+function void arena_free(Arena *arena);
 function void arena_destroy(Arena *arena);
 
 // -
@@ -262,7 +262,7 @@ function void *arena_allocate(Arena *arena, U64 size)
   return ptr;
 }
 
-function void arena_clear(Arena *arena)
+function void arena_free(Arena *arena)
 {
   for(U64 i = 0; i < arena->size; i++)
   {

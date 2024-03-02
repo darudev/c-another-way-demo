@@ -60,3 +60,11 @@ Another thing I've learned is that simple build scripts are now possible. Everyt
 The demo is just a simple CSV parser. Uhm, maybe not "Just", because turned out to be a tad more work than I expected! 
 
 Anyway, it reads a CSV with the following columns: U64, S32, String, B32, F64
+
+## Usage
+
+Clone repo. 
+
+    chmod +x build
+
+    ./build debug run demo.csv
