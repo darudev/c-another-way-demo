@@ -4,6 +4,12 @@
 
 Only 64-bit Linux at this point. Tested on Arch.
 
+A subset of things I've learned from game programmers regarding architecture and coding practices for C projects. Still learning so there of course things here that I don't fully understand the how and why for yet.
+
+This is also of course by any means my ideas! I just tried to implement them my own way. 
+
+The true sources are works by Casey Muratori and Ryan Fleury. And whoever they got their ideas from. 
+
 ## Single header file library
 
 Simple dependency management and usage of small(er) C libraries. The whole library is just on .h file!
