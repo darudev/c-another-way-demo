@@ -195,7 +195,7 @@ Row *parse_row(Arena *arena, ByteArray *csv_data, Column *item)
   while(item && keep_parsing && count < COLUMNS)
   {
     // -
-    String *value_str = bl_string_from_byte_slice(arena, csv_data, item->start_pos, item->end_pos);
+    String *value_str = bl_string_from_byte_array_slice(arena, csv_data, item->start_pos, item->end_pos);
 
     // -
     switch(item->type)

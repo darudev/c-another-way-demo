@@ -74,7 +74,7 @@ struct String {
 };
 
 function String *bl_string_from_cstr(Arena *arena, char *cstr);
-function String *bl_string_from_byte_slice(Arena *arena, ByteArray *input, U64 start, U64 end);
+function String *bl_string_from_byte_array_slice(Arena *arena, ByteArray *input, U64 start, U64 end);
 function char *bl_cstr_from_string(Arena *arena, String *string);
 function B32 bl_string_compare(String *first, String *second);
 
@@ -299,7 +299,7 @@ function String *bl_string_from_cstr(Arena *arena, char *cstr)
   return string;
 }
 
-function String *bl_string_from_byte_slice(Arena *arena, ByteArray *input, U64 start, U64 end)
+function String *bl_string_from_byte_array_slice(Arena *arena, ByteArray *input, U64 start, U64 end)
 {
   String *result = arena_allocate(arena, sizeof(String));
   result->size = end - start;
