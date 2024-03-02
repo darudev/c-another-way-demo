@@ -1,0 +1,141 @@
+#!/bin/bash
+
+DEBUG_NAME="debug_demo"
+VALGRIND_NAME="valgrind_demo"
+RELEASE_NAME="demo"
+
+COMPILER="gcc"
+SOURCE_FILES="main.c"
+STD="-std=c11"
+DEBUG="-g3"
+WARNINGS="-Wall -Wextra -pedantic -Wno-unused-function"
+SANITIZE="-fsanitize=address,undefined"
+DEFINES=""
+DIAGNOSTICS=""
+INCLUDES=""
+LIBS=""
+
+DEBUG_OUTPUT="-o $DEBUG_NAME"
+DEBUG_BUILD_COMMAND="$COMPILER $SOURCE_FILES $STD $DEBUG $WARNINGS $SANITIZE $DEFINES $DIAGNOSTICS $INCLUDES $LIBS $DEBUG_OUTPUT"
+
+VALGRIND_OUTPUT="-o $VALGRIND_NAME"
+VALGRIND_BUILD_COMMAND="$COMPILER $SOURCE_FILES $STD $DEBUG $WARNINGS $DEFINES $DIAGNOSTICS $INCLUDES $LIBS $VALGRIND_OUTPUT"
+
+RELEASE_OUTPUT="-o $RELEASE_NAME"
+RELEASE_BUILD_COMMAND="$COMPILER $SOURCE_FILES $STD $WARNINGS $DEFINES $INCLUDES $LIBS $RELEASE_OUTPUT"
+
+
+EXECUTABLE="./build"
+
+function usage {
+    echo "Usage:"
+    echo "$EXECUTABLE debug"
+    echo "$EXECUTABLE valgrind"
+    echo "$EXECUTABLE release"
+    echo "$EXECUTABLE debug run <args>"
+    echo "$EXECUTABLE release run <args>"
+}
+
+function terminal_spacer {
+    echo -e "\n########################################## \n"
+}
+
+
+NR_OF_ARGUMENTS=$#
+ARGUMENTS=("$@")
+
+if [ $NR_OF_ARGUMENTS -eq 0 ]; then
+    usage
+    exit 1
+fi
+
+if [ $NR_OF_ARGUMENTS -eq 1 ]; then
+    if [ ${ARGUMENTS[0]} = "debug" ]; then
+        clear
+        terminal_spacer
+        echo "DEBUG BUILD"
+        echo $DEBUG_BUILD_COMMAND
+        ($DEBUG_BUILD_COMMAND)
+        if [ $? -eq 0 ]; then
+            echo "DEBUG BUILD: $DEBUG_NAME"
+        else
+            echo "DEBUG BUILD: Error"
+        fi
+
+    elif [ ${ARGUMENTS[0]} = "valgrind" ]; then
+        clear
+        terminal_spacer
+        echo "VALGRIND BUILD"
+        cmd_str=$VALGRIND_BUILD_COMMAND
+        echo $VALGRIND_BUILD_COMMAND
+        ($VALGRIND_BUILD_COMMAND)
+        if [ $? -eq 0 ]; then
+            echo "VALGRIND BUILD: $VALGRIND_NAME"
+        else
+            echo "VALGRIND BUILD: Error"
+        fi
+
+    elif [ ${ARGUMENTS[0]} = "release" ]; then
+        clear
+        terminal_spacer
+        echo "RELEASE BUILD"
+        cmd_str=$RELEASE_BUILD_COMMAND
+        echo $RELEASE_BUILD_COMMAND
+        ($RELEASE_BUILD_COMMAND)
+        if [ $? -eq 0 ]; then
+            echo "RELEASE BUILD: $RELEASE_NAME"
+        else
+            echo "RELEASE BUILD: Error"
+        fi
+
+    else
+        echo "Invalid arguments"
+        usage
+        exit 1
+    fi
+    
+elif [ $NR_OF_ARGUMENTS -gt 1 ] && [ ${ARGUMENTS[1]} = "run" ]; then
+
+    if [ ${ARGUMENTS[0]} = "debug" ]; then
+        clear
+        terminal_spacer
+        echo "DEBUG BUILD AND RUN"
+        echo $DEBUG_BUILD_COMMAND
+        ($DEBUG_BUILD_COMMAND)
+
+        if [ $? -eq 0 ]; then
+            run_command="./$DEBUG_NAME"
+            i=1
+            while [ $i -lt $NR_OF_ARGUMENTS ]; do
+                let i=i+1
+                run_command+=" ${ARGUMENTS[i]}"
+            done
+            echo $run_command
+            ($run_command)
+        fi
+
+    elif [ ${ARGUMENTS[0]} = "release" ]; then
+        clear
+        terminal_spacer
+        echo "RELEASE BUILD AND RUN"
+        echo $RELEASE_BUILD_COMMAND
+        ($RELEASE_BUILD_COMMAND)
+
+        if [ $? -eq 0 ]; then
+            run_command="./$RELEASE_NAME"
+            i=1
+            while [ $i -lt $NR_OF_ARGUMENTS ]; do
+                let i=i+1
+                run_command+=" ${ARGUMENTS[i]}"
+            done
+            echo $run_command
+            ($run_command)
+        fi
+
+    else
+        echo "Invalid arguments"
+        usage
+        exit 1
+    fi
+fi
+
