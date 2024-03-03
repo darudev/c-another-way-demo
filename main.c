@@ -47,7 +47,7 @@ struct ColumnList
   U32 column_count;
 };
 
-ByteArray *read_entire_file(Arena *arena, char *filename)
+function ByteArray *read_entire_file(Arena *arena, char *filename)
 {
   ByteArray *result = arena_allocate(arena, sizeof(ByteArray));
 
@@ -83,7 +83,7 @@ ByteArray *read_entire_file(Arena *arena, char *filename)
   return result;
 }
 
-B32 in_range(U64 pos, U64 max)
+function B32 in_range(U64 pos, U64 max)
 {
   B32 result = TRUE;
 
@@ -95,7 +95,7 @@ B32 in_range(U64 pos, U64 max)
   return result;
 }
 
-B32 is_new_line(U8 character)
+function B32 is_new_line(U8 character)
 {
   B32 result = FALSE;
   if(character == '\n')
@@ -106,7 +106,7 @@ B32 is_new_line(U8 character)
   return result;
 }
 
-ColumnList *extract_columns(Arena *arena, ByteArray *input)
+function ColumnList *extract_columns(Arena *arena, ByteArray *input)
 {
   ColumnList *result = arena_allocate(arena, sizeof(ColumnList));
 
@@ -186,7 +186,7 @@ ColumnList *extract_columns(Arena *arena, ByteArray *input)
   return result;
 }
 
-Row *parse_row(Arena *arena, ByteArray *csv_data, Column *item)
+function Row *parse_row(Arena *arena, ByteArray *csv_data, Column *item)
 {
   Row *result = arena_allocate(arena, sizeof(Row));
 
@@ -275,7 +275,7 @@ Row *parse_row(Arena *arena, ByteArray *csv_data, Column *item)
   return result;
 }
 
-Rows *parse_data(Arena *arena, ByteArray *csv_data, ColumnList *column_list)
+function Rows *parse_data(Arena *arena, ByteArray *csv_data, ColumnList *column_list)
 {
 
   // -
@@ -305,7 +305,7 @@ Rows *parse_data(Arena *arena, ByteArray *csv_data, ColumnList *column_list)
   return rows;
 }
 
-void print_rows(Arena *arena, Rows *rows)
+function void print_rows(Arena *arena, Rows *rows)
 {
   for(U64 i = 0; i < rows->count; i++)
   {
