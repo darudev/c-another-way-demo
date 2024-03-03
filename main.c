@@ -288,9 +288,8 @@ function Rows *parse_data(Arena *arena, ByteArray *csv_data, ColumnList *column_
   Column *item = column_list->start;
   for(U32 i = 0; i < row_count; i++)
   {
-
+    // -
     Row *row = parse_row(arena, csv_data, item);
-
     rows->items[i] = row;
 
     // -
