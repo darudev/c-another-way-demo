@@ -232,7 +232,9 @@ function void *arena_allocate(Arena *arena, U64 size)
       chunks = (aligned_size / CHUNK_SIZE);
     }
 
-    U64 new_size = arena->size + (chunks * CHUNK_SIZE);
+    // Yes, we "waste" some memory here..
+    U64 remainder = CHUNK_SIZE;
+    U64 new_size = arena->size + (chunks * CHUNK_SIZE) + remainder;
     errno = 0;
     if(mprotect(arena->memory, new_size, PROT_READ | PROT_WRITE) == -1)
     {
